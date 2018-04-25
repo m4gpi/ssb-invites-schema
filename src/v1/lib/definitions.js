@@ -22,12 +22,17 @@ module.exports = {
       }
     },
     feed: {
-      type: 'object',
-      required: ['name', 'link'],
-      properties: {
-        link: { $ref: '#/definitions/feedId' },
-        name: { type: 'string' }
-      }
+      oneOf: [
+        { $ref: '#/definitions/feedId' },
+        {
+          type: 'object',
+          required: ['name', 'link'],
+          properties: {
+            link: { $ref: '#/definitions/feedId' },
+            name: { type: 'string' }
+          }
+        }
+      ]
     },
     blob: {
       type: 'object',
@@ -37,14 +42,20 @@ module.exports = {
         name: { type: 'string' }
       }
     },
-    feeds: {
-      type: 'array',
-      items: {
-        oneOf: [
-          { $ref: '#/definitions/feedId' },
-          { $ref: '#/definitions/mentions/feed' }
-        ]
-      }
+    any: {
+      oneOf: [
+        { type: 'null' },
+        {
+          type: 'array',
+          items: {
+            oneOf: [
+              { $ref: '#/definitions/mentions/message'  },
+              { $ref: '#/definitions/mentions/feed'  },
+              { $ref: '#/definitions/mentions/blob'  }
+            ]
+          }
+        }
+      ]
     }
   },
   recps: {

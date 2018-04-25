@@ -22,7 +22,7 @@ module.exports = {
       format: 'date-time'
     },
     body: { type: 'string' },
-    mentions: { $ref: '#/definitions/mentions/feeds' },
+    mentions: { $ref: '#/definitions/mentions/any' },
     recps: { $ref: '#/definitions/recps' }
   },
   definitions: definitions

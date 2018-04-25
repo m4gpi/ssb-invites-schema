@@ -1,19 +1,32 @@
-const ssbSchemaDefintions = require('../v1/lib/ssbSchemaDefintions')
+const definitions = require('../v1/lib/definitions')
 
 module.exports = {
   $schema: 'http://json-schema.org/schema#',
   type: 'object',
-  required: ['version', 'type', 'root', 'branch', 'body', 'recps'],
+  required: ['version', 'type', 'root', 'branch', 'recps'],
   properties: {
     version: { type: 'string' },
+    module: { type: 'string' },
     type: { 
       type: 'string',
       pattern: '^response$'
     },
-    root: { $ref: '#/definition/messageId' },
-    branch: { $ref: '#/definitions/messageId' },
+    root: {
+      oneOf: [
+        { type: 'null' },
+        { $ref: '#/definitions/messageId' },
+      ]
+    },
+    branch: {
+      oneOf: [
+        { type: 'null' },
+        { $ref: '#/definitions/messageId' },
+      ]
+    },
+    body: { type: 'string' },
+    mentions: { $ref: '#/definitions/mentions/any' },
     accept: { type: 'boolean' },
-    recps: { $ref: '#/definitions/recps' }
+    recps: { $ref: '#/definitions/recps' },
   },
   definitions: definitions
 }
